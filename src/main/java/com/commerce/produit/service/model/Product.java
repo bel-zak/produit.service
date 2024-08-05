@@ -14,7 +14,7 @@ public class Product {
     private int stockQuantity;
     private double price;
 
-    public Long id() {
+    public Long getId() {
         return id;
     }
 
@@ -23,7 +23,7 @@ public class Product {
         return this;
     }
 
-    public String name() {
+    public String getName() {
         return name;
     }
 
@@ -32,7 +32,7 @@ public class Product {
         return this;
     }
 
-    public int stockQuantity() {
+    public int getStockQuantity() {
         return stockQuantity;
     }
 
@@ -41,7 +41,7 @@ public class Product {
         return this;
     }
 
-    public double price() {
+    public double getPrice() {
         return price;
     }
 

@@ -3,6 +3,8 @@ package com.commerce.produit.service.controller;
 import com.commerce.produit.service.business.ProductService;
 import com.commerce.produit.service.model.Product;
 import com.commerce.produit.service.repository.ProductRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    public ProductController(ProductService productService) {
+    }
 
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
@@ -39,6 +45,7 @@ public class ProductController {
         return product.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
         product.setId(id);
@@ -46,10 +53,14 @@ public class ProductController {
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+   /* @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
+    }*/
+   @DeleteMapping("/{id}")
+   public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+       productService.deleteProduct(id);
+       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+   }
 }
