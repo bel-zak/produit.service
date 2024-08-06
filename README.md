@@ -16,43 +16,52 @@ Ce projet est un microservice de gestion de l'inventaire des produits développ�
 1. **Cloner le dépôt :**
 
    git clone https://github.com/bel-zak/produit.service.git
-   cd produit-service
+   cd produit.service
 
 Construire le projet :
 
-mvn clean install
-Lancer l'application :
-mvn spring-boot:run
+    mvn clean install
+    Lancer l'application :
+    mvn spring-boot:run
 
-L'application démarrera sur : http://localhost:8080.
+- L'application démarrera sur : http://localhost:8080.
+- Accés Swagger : http://localhost:8080/swagger-ui/index.html#
+- lien Actuator : http://localhost:8080/actuator/health
+                  http://localhost:8080/actuator/health/custom
+- Endpoints de l'API REST: /api/**
+    Afficher les produits :
+    URL: GET /api/products/
 
-Endpoints de l'API REST:
+## initialisation des données ###
+- Initialisation des utilisateurs : package com.commerce.produit.service.config
+  public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
+      PasswordEncoder passwordEncoder= passwordEncoder();
+          return new InMemoryUserDetailsManager(
+                  User.withUsername("user").password(passwordEncoder.encode("password")).authorities("USER").build(),
+                  User.withUsername("admin").password(passwordEncoder.encode("password")).authorities("USER","ADMIN").build()
 
-Ajouter un nouveau produit
-URL: POST /api/products
-____________ json utilisé pour le test ___________________
-
-{
-  "name": "Nom du produit",
-  "stockQuantity": 100,
-  "price": 50.0
+          );
+  }
+- Initialisation de la table produit :  
+CommandLineRunner commandLineRunner (ProductService productService){
+    return args -> {
+        for (int i = 0; i < 10; i++) {
+            productService.addProduct(
+            Product.builder()
+            .name("Product- "+i)
+            .price(100.00)
+            .stockQuantity(13)
+            .build());
+        }
+    };
 }
-________________________________________
-Récupérer la liste de tous les produits
-URL: GET /api/products
-
-Récupérer un produit spécifique par son ID
-URL: GET /api/products/{id}
-
-Mettre à jour un produit existant
-URL: PUT /api/products/{id}
-
-Supprimer un produit (authentification requise)
-URL: DELETE /api/products/{id}
+##  les contrats d'interface -- SWAGGER 
+- URL : http://localhost:8080/swagger-ui/index.html#
 
 
-Authentification
+## Authentification ( seul le endpoint DELETE est concerné '/delete/products/{id}' )
 Pour accéder aux endpoints protégés (notamment pour la suppression des produits), utilisez les informations de connexion suivantes :
 
 Username: admin
 Password: password
+

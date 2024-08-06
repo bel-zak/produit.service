@@ -2,22 +2,19 @@ package com.commerce.produit.service.controller;
 
 import com.commerce.produit.service.business.ProductService;
 import com.commerce.produit.service.model.Product;
-import com.commerce.produit.service.repository.ProductRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping ("/api/products")
+@RequestMapping ("/api")
 
 public class ProductController {
 
@@ -27,26 +24,27 @@ public class ProductController {
     public ProductController(ProductService productService) {
     }
 
-    @PostMapping
+    @PostMapping("/products/add")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
-    Product createProduct = productService.addProduct(product);
-    return new ResponseEntity<>(createProduct, HttpStatus.CREATED);
-}
+        Product createProduct = productService.addProduct(product);
+        return new ResponseEntity<>(createProduct, HttpStatus.CREATED);
+    }
 
-@GetMapping
+    @GetMapping("/products")
     public ResponseEntity <List<Product>> getAllProducts(){
 
-    List<Product> products= productService.getAllProducts();
-    return new ResponseEntity<>(products,HttpStatus.OK);
+        List<Product> products= productService.getAllProducts();
+        return new ResponseEntity<>(products,HttpStatus.OK);
 
-}
+    }
+    @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Optional<Product> product = productService.getProductById(id);
         return product.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
         product.setId(id);
         Product updatedProduct = productService.updateProduct(product);
@@ -54,9 +52,9 @@ public class ProductController {
     }
 
 
-   @DeleteMapping("/{id}")
-   public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-       productService.deleteProduct(id);
-       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-   }
+    @DeleteMapping("/delete/products/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

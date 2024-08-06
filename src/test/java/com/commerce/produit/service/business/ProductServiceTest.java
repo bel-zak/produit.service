@@ -29,10 +29,8 @@ public class ProductServiceTest {
 
     @Test
     void testAddProduct() {
-        Product product = new Product();
-        product.setName("Test Product");
-        product.setStockQuantity(100);
-        product.setPrice(50.0);
+        Product product = Product.builder().name("test1").stockQuantity(100).price(100.00).
+                build();
 
         when(productRepository.save(any(Product.class))).thenReturn(product);
 
@@ -42,13 +40,13 @@ public class ProductServiceTest {
 
     @Test
     void testGetAllProducts() {
-        Product product1 = new Product();
-        product1.setName("Product 1");
-        Product product2 = new Product();
-        product2.setName("Product 2");
+        Product product = Product.builder().name("test2").stockQuantity(100).price(100.00).
+                build();
+        Product product2 = Product.builder().name("test3").stockQuantity(100).price(100.00).
+                build();
 
         List<Product> productList = new ArrayList<>();
-        productList.add(product1);
+        productList.add(product);
         productList.add(product2);
 
         when(productRepository.findAll()).thenReturn(productList);
@@ -59,20 +57,20 @@ public class ProductServiceTest {
 
     @Test
     void testGetProductById() {
-        Product product = new Product();
-        product.setName("Test Product");
+        Product product = Product.builder().name("test1").stockQuantity(100).price(100.00).
+                build();
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
         Optional<Product> result = productService.getProductById(1L);
-        assertEquals("Test Product", result.get().getName());
+        assertEquals("test1", result.get().getName());
     }
 
     @Test
     void testUpdateProduct() {
-        Product product = new Product();
-        product.setId(1L);
-        product.setName("Updated Product");
+        Product product = Product.builder().id(1L).name("Updated Product").stockQuantity(100).price(100.00).
+                build();
+
 
         when(productRepository.save(any(Product.class))).thenReturn(product);
 
