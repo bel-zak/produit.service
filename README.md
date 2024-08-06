@@ -34,7 +34,9 @@ Construire le projet :
     URL: GET /api/products/
 
 ## initialisation des données ###
+
 - Initialisation des utilisateurs : package com.commerce.produit.service.config
+
   public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
       PasswordEncoder passwordEncoder= passwordEncoder();
           return new InMemoryUserDetailsManager(
@@ -44,6 +46,7 @@ Construire le projet :
           );
   }
 - Initialisation de la table produit :  
+
 CommandLineRunner commandLineRunner (ProductService productService){
     return args -> {
         for (int i = 0; i < 10; i++) {
