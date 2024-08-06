@@ -74,7 +74,7 @@ public class ProductServiceTest {
 
         when(productRepository.save(any(Product.class))).thenReturn(product);
 
-        Product result = productService.updateProduct(product);
+        Product result = productService.updateProduct(product,1L);
         assertEquals("Updated Product", result.getName());
     }
 

@@ -1,6 +1,7 @@
 package com.commerce.produit.service.controller;
 
 import com.commerce.produit.service.business.ProductService;
+import com.commerce.produit.service.dto.ProductResponse;
 import com.commerce.produit.service.model.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping ("/api")
@@ -26,35 +26,33 @@ public class ProductController {
 
     @PostMapping("/products/add")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
-        Product createProduct = productService.addProduct(product);
-        return new ResponseEntity<>(createProduct, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(productService.addProduct(productService.addProduct(product)), HttpStatus.CREATED);
     }
 
     @GetMapping("/products")
     public ResponseEntity <List<Product>> getAllProducts(){
 
-        List<Product> products= productService.getAllProducts();
-        return new ResponseEntity<>(products,HttpStatus.OK);
+        return new ResponseEntity<>( productService.getAllProducts(),HttpStatus.OK);
 
     }
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        Optional<Product> product = productService.getProductById(id);
-        return product.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+        return productService.getProductById(id).map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        product.setId(id);
-        Product updatedProduct = productService.updateProduct(product);
-        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+
+        return new ResponseEntity<>(productService.updateProduct(product,id), HttpStatus.ACCEPTED);
     }
 
 
     @DeleteMapping("/delete/products/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
