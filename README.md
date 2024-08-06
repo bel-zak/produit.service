@@ -66,6 +66,11 @@ CommandLineRunner commandLineRunner (ProductService productService){
 ## Authentification ( seul le endpoint DELETE est concerné '/delete/products/{id}' )
 Pour accéder aux endpoints protégés (notamment pour la suppression des produits), utilisez les informations de connexion suivantes :
 
-Username: admin
-Password: password
+   -  Username: admin
+   -  Password: password
+
+## Perspectives DTOs
+
+- Ajout des DTOs comme perspective et pour respecter  l'architecture microservices.
+- rendre l'api extensible et fermée à la modification.
 
