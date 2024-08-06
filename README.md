@@ -28,6 +28,7 @@ Construire le projet :
 - Accés Swagger : http://localhost:8080/swagger-ui/index.html#
 - lien Actuator : http://localhost:8080/actuator/health
                   http://localhost:8080/actuator/health/custom
+                  http://localhost:8080/actuator/metrics
 - Endpoints de l'API REST: /api/**
     Afficher les produits :
     URL: GET /api/products/
